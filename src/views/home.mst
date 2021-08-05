@@ -1,13 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Page - Home</title>
+  <title>CRUD DE CLIENTES</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.24/r-2.2.7/datatables.min.css">
 </head>
 <body>
-  <h1>Page Home</h1>
+  <header class="text-center text-white bg-secondary py-2">
+    <h1>CRUD de Clientes com Node.js</h1>
+  </header>
   
+  <main class="container my-3">
+    <table id="clients-table" class="table text-center"></table>
+  </main>
+
+  <footer>
+
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.24/r-2.2.7/datatables.min.js"></script>
+  <script>
+    $("#clients-table").DataTable({
+      responsive: true,
+      autoWidth: false,
+      columnDefs: [{
+          targets: [ 3 ],
+          orderable: false
+      }],
+      ajax: {
+        method: 'POST',
+        url: 'http://localhost:2000/clients'
+      },
+      columns: [
+        {
+          title: 'CPF',
+          data: "cpf"
+        },
+        {
+          title: 'Nome completo',
+          data: "fullname"
+        },
+        {
+          title: 'E-mail',
+          data: "email"
+        },
+        {
+          title: 'Ações',
+          data: 'id',
+          render: function(data) {
+            return `
+                  <button class="btn btn-sm btn-primary" onclick="updateModal('${data}')">
+                      <i class="far fa-edit fa-lg"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" onclick="deleteModal('${data}')">
+                    <i class="far fa-trash-alt fa-lg"></i>
+                  </button>
+                `
+          }
+        }
+      ]
+    });
+  </script>
 </body>
 </html>

@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const homeController  = require('../controllers/homeController');
+const indexController  = require('../controllers/indexController');
 const clientController = require('../controllers/clientController');
 
-router.get('/', homeController.index);
+router.get('/', indexController.index);
+router.get('/cliente', clientController.pageClientForm);
 
-router.post('/clients', clientController.getClients);
+router.post('/clientes', clientController.getClients);
+router.post('/cliente/submit', clientController.saveClient);
 
 module.exports = router;

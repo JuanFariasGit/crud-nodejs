@@ -1,0 +1,51 @@
+<footer class="text-center text-white bg-secondary py-2">
+  <span>Desenvolvido por Juan de Oliveira Farias</span>
+</footer>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.24/r-2.2.7/datatables.min.js"></script>
+<script>
+  $("#clients-table").DataTable({
+    responsive: true,
+    autoWidth: false,
+    columnDefs: [{
+        targets: [ 3 ],
+        orderable: false
+    }],
+    ajax: {
+      method: 'POST',
+      url: location.origin + '/clientes'
+    },
+    columns: [
+      {
+        title: 'CPF',
+        data: "cpf"
+      },
+      {
+        title: 'Nome completo',
+        data: "fullname"
+      },
+      {
+        title: 'E-mail',
+        data: "email"
+      },
+      {
+        title: 'Ações',
+        data: 'id',
+        render: function(data) {
+          return `
+                <a class="btn btn-sm btn-primary" href="/cliente?id=${data}">
+                  <i class="far fa-edit fa-lg"></i>   
+                </a>
+                <button class="btn btn-sm btn-danger" onclick="deleteModal('${data}')">
+                  <i class="far fa-trash-alt fa-lg"></i>
+                </button>
+              `
+        }
+      }
+    ]
+  });
+</script>
+</body>
+</html>

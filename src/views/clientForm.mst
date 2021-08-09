@@ -1,0 +1,32 @@
+{{>header}}
+  <main class="container my-3">
+    {{#flashes}}
+      {{#error}}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          {{.}}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      {{/error}}
+    {{/flashes}}
+    <form method="POST" action="/cliente/submit">
+      <input type="hidden" name="id" {{#client}} value="{{id}}" {{/client}}>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="fullname">Nome completo:</label>
+          <input id="fullname" class="form-control" type="text" name="fullname" {{#client}} value="{{fullname}}" {{/client}}>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="email">E-mail:</label>
+          <input id="email" class="form-control" type="text" name="email" {{#client}} value="{{email}}" {{/client}}>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="cpf">CPF:</label>
+          <input id="cpf" class="form-control" type="text" name="cpf" {{#client}} value="{{cpf}}" {{/client}}>
+        </div>
+      </div>
+      <button class="btn btn-primary" type="submit">Salvar</button>
+    </form>
+  </main>
+{{>footer}}

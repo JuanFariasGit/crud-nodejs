@@ -18,7 +18,7 @@ const getClients = async (req, res) => {
 const pageClientForm = async (req, res) => {
   const { id } = req.query;
   if (id && await existClient(id)) {
-    client = await Client.findAll({ where: { id: parseInt(id) } });
+    client = await Client.findOne({ where: { id: parseInt(id) } });
     res.render('clientForm', { client });
   } else {
     res.render('clientForm');
@@ -61,17 +61,23 @@ const saveClient = async (req, res) => {
   }
 }
 
+const deleteClient = async (req, res) => {
+  const { id } = req.query;
+  if (id && await existClient(id)) {
+    await Client.destroy({where: { id: parseInt(id) }});
+    req.flash('success', 'Cliente excluido com sucesso.');
+  }
+  res.redirect('/');
+}
+
 const existClient = async (id) => {
   const result = await Client.findOne({where: { id: parseInt(id) }});
-  if (result) {
-    return true;
-  } else {
-    return false;
-  }
+  return result !== null;
 }
 
 module.exports = {
   getClients,
   pageClientForm,
-  saveClient
+  saveClient,
+  deleteClient
 }

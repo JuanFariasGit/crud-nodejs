@@ -17,11 +17,11 @@ const getClients = async (req, res) => {
 
 const pageClientForm = async (req, res) => {
   const { id } = req.query;
-  if (await existClient(id)) {
+  if (id && await existClient(id)) {
     client = await Client.findAll({ where: { id: parseInt(id) } });
-    res.render('clientForm', { client });  
+    res.render('clientForm', { client });
   } else {
-    res.redirect('/');
+    res.render('clientForm');
   }
 } 
 

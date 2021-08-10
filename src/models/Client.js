@@ -27,7 +27,7 @@ const Client = sequelize.define('Client', {
     },
     validate: {
       isEmail: {
-        msg: 'O e-mail deve ser válido.'
+        msg: 'O e-mail informado é inválido.'
       }
     }
   },
@@ -41,7 +41,7 @@ const Client = sequelize.define('Client', {
     validate: {
       isCpf(value) {
         if (!CPF.isValid(value)) {
-          throw new Error('O CPF deve ser válido.');
+          throw new Error('O CPF informado é inválido.');
         }
       }
     }

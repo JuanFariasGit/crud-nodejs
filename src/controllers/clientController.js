@@ -16,11 +16,13 @@ const getClients = async (req, res) => {
 }
 
 const pageClientForm = async (req, res) => {
-  let client;
-  if (req.query.id) {
-    client = await Client.findAll({ where: { id: parseInt(req.query.id) } });  
+  const { id } = req.query;
+  if (await existClient(id)) {
+    client = await Client.findAll({ where: { id: parseInt(id) } });
+    res.render('clientForm', { client });  
+  } else {
+    res.redirect('/');
   }
-  res.render('clientForm', { client });
 } 
 
 const saveClient = async (req, res) => {
@@ -35,7 +37,7 @@ const saveClient = async (req, res) => {
   if (!id) {
     try {
       await Client.create(data);
-      req.flash('success', 'Cliente adicionado com sucesso.')
+      req.flash('success', 'Cliente adicionado com sucesso.');
       res.redirect('/');
     } catch (ex) {
       ex.errors.forEach(error => {
@@ -45,15 +47,26 @@ const saveClient = async (req, res) => {
     }
   } else {
     try {
-      await Client.update(data, { where: { id: parseInt(id) } })
-      req.flash('success', 'Cliente atualizado com sucesso.')
+      if (await existClient(id)) {
+        await Client.update(data, { where: { id: parseInt(id) } });
+        req.flash('success', 'Cliente atualizado com sucesso.');
+      }
       res.redirect('/');
     } catch (ex) {
       ex.errors.forEach(error => {
-        req.flash('error', error.message);
+        req.flash('error', `${error.message} (${error.value})`);
       });
       res.redirect('/cliente?id=' + id);
     }
+  }
+}
+
+const existClient = async (id) => {
+  const result = await Client.findOne({where: { id: parseInt(id) }});
+  if (result) {
+    return true;
+  } else {
+    return false;
   }
 }
 

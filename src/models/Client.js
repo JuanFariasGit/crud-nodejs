@@ -1,12 +1,13 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../instances/pg');
+const sequelize = require('../database/pg');
 const CPF = require('cpf');
 
 const Client = sequelize.define('Client', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
-    autoIncrement: true
+    autoIncrement: true,
+    allowNull: false
   },
   fullname: {
     type: DataTypes.STRING,

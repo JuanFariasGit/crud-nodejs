@@ -10,7 +10,7 @@ module.exports = {
   database: process.env.PG_DB,
   port: parseInt(process.env.PG_PORT),
   define: {
-    timestaps: true,
+    timestaps: false,
     underscored: true
   }
 }
